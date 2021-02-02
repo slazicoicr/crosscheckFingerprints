@@ -87,6 +87,8 @@ task runCrosscheckFingerprints {
     }
 
     command <<<
+        set -eu -o pipefail
+
         java -Xmx~{picardMaxMemMb}M \
         -jar ${PICARD_ROOT}/picard.jar \
         CrosscheckFingerprints \
