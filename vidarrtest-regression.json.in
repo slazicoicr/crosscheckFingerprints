@@ -1,0 +1,75 @@
+[
+    {
+        "arguments": {
+            "crosscheckFingerprints.haplotypeMapDir": null,
+            "crosscheckFingerprints.haplotypeMapFileName": "oicr_hg19_chr.map",
+            "crosscheckFingerprints.inputs": [
+                {
+                    "contents": {
+                        "configuration": "/.mounts/labs/gsi/testdata/crosscheckFingerprints/input_data/PCSI_0090_Ly_R_PE_598_WG_170201_D00355_0145_ACADTLANXX_GTAGAG_L008_001.annotated.chr22.bam",
+                        "externalIds": [
+                            {
+                                "id": "TEST",
+                                "provider": "TEST"
+                            }
+                        ]
+                    },
+                    "type": "EXTERNAL"
+                },
+                {
+                    "contents": {
+                        "configuration": "/.mounts/labs/gsi/testdata/crosscheckFingerprints/input_data/PCSI_0090_Pa_P_PE_501_WG_526_170203_D00343_0160_ACACFLANXX_CCGTCC_L008_001.annotated.chr22.bam",
+                        "externalIds": [
+                            {
+                                "id": "TEST",
+                                "provider": "TEST"
+                            }
+                        ]
+                    },
+                    "type": "EXTERNAL"
+                }
+            ],
+            "crosscheckFingerprints.outputPrefix": "PCSI_TEST",
+            "crosscheckFingerprints.runCrosscheckFingerprints.additionalParameters": null,
+            "crosscheckFingerprints.runCrosscheckFingerprints.crosscheckBy": null,
+            "crosscheckFingerprints.runCrosscheckFingerprints.exitCodeWhenMismatch": null,
+            "crosscheckFingerprints.runCrosscheckFingerprints.exitCodeWhenNoValidChecks": null,
+            "crosscheckFingerprints.runCrosscheckFingerprints.jobMemory": null,
+            "crosscheckFingerprints.runCrosscheckFingerprints.lodThreshold": null,
+            "crosscheckFingerprints.runCrosscheckFingerprints.modules": null,
+            "crosscheckFingerprints.runCrosscheckFingerprints.picardMaxMemMb": null,
+            "crosscheckFingerprints.runCrosscheckFingerprints.threads": null,
+            "crosscheckFingerprints.runCrosscheckFingerprints.timeout": null,
+            "crosscheckFingerprints.runCrosscheckFingerprints.validationStringency": null
+        },
+        "description": "crosscheckFingerprints workflow test",
+        "engineArguments": {},
+        "id": "pcsi",
+        "metadata": {
+            "crosscheckFingerprints.crosscheckMetrics": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_crosscheckFingerprints_pcsi_@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            },
+            "crosscheckFingerprints.crosscheckMetricsMatrix": {
+                "contents": [
+                    {
+                        "outputDirectory": "@SCRATCH@/@DATE@_Workflow_crosscheckFingerprints_pcsi_@JENKINSID@"
+                    }
+                ],
+                "type": "ALL"
+            }
+        },
+        "validators": [
+            {
+                "metrics_calculate": "@CHECKOUT@/tests/calculate.sh",
+                "metrics_compare": "@CHECKOUT@/tests/compare.sh",
+                "output_metrics": "/.mounts/labs/gsi/testdata/crosscheckFingerprints/output_expectation/pcsi.metrics",
+                "type": "script"
+            }
+        ]
+    }
+]
