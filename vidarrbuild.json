@@ -1,0 +1,6 @@
+{
+    "names": [
+        "crosscheckFingerprints"
+    ],
+    "wdl": "crosscheckFingerprints.wdl"
+}
