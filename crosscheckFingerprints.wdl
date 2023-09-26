@@ -22,11 +22,11 @@ workflow crosscheckFingerprints {
         dependencies:
         [
             {
-                name: "picard/2.21.2",
-                url: "https://broadinstitute.github.io/picard/command-line-overview.html#Overview"
+                name: "gatk/4.2.0.0",
+                url: "https://gatk.broadinstitute.org/hc/en-us/articles/360056798851--GATK-4-2-release"
             },
             {
-                name: "crosscheckfingerprints-haplotype-map/20210201",
+                name: "crosscheckfingerprints-haplotype-map/20230324",
                 url: "https://github.com/oicr-gsi/fingerprint_maps"
             }
         ]
@@ -61,8 +61,7 @@ task runCrosscheckFingerprints {
         Int exitCodeWhenNoValidChecks = 0
         Float lodThreshold = 0.0
         String validationStringency = "SILENT"
-        String modules = "picard/2.21.2 crosscheckfingerprints-haplotype-map/20210201"
-        String? additionalParameters
+        String modules = "gatk/4.2.0.0 crosscheckfingerprints-haplotype-map/20230324"
         Int threads = 4
         Int jobMemory = 6
         Int timeout = 6
@@ -80,7 +79,6 @@ task runCrosscheckFingerprints {
         lodThreshold: "If any two groups (with the same sample name) match with a LOD score lower than the threshold the tool will exit with a non-zero code to indicate error. Program will also exit with an error if it finds two groups with different sample name that match with a LOD score greater than -LOD_THRESHOLD. LOD score 0 means equal likelihood that the groups match vs. come from different individuals, negative LOD score -N, mean 10^N time more likely that the groups are from different individuals, and +N means 10^N times more likely that the groups are from the same individual."
         validationStringency: "Validation stringency for all SAM files read by this program. Setting stringency to SILENT can improve performance when processing a BAM file in which variable-length data (read, qualities, tags) do not otherwise need to be decoded. See https://jira.oicr.on.ca/browse/GC-8372 for why this is set to SILENT for OICR purposes."
         modules: "Modules to load for this workflow."
-        additionalParameters: "Any additional parameters that need to be passed Picard."
         threads: "Requested CPU threads."
         jobMemory: "Memory (GB) allocated for this job."
         timeout: "Number of hours before task timeout."
@@ -89,9 +87,7 @@ task runCrosscheckFingerprints {
     command <<<
         set -eu -o pipefail
 
-        java -Xmx~{picardMaxMemMb}M \
-        -jar ${PICARD_ROOT}/picard.jar \
-        CrosscheckFingerprints \
+        $GATK_ROOT/bin/gatk --java-options "-Xmx~{picardMaxMemMb}M" CrosscheckFingerprints \
         ~{sep=" " inputCommand} \
         HAPLOTYPE_MAP=~{haplotypeMap} \
         OUTPUT=~{outputPrefix}.crosscheck_metrics.txt \
@@ -101,8 +97,7 @@ task runCrosscheckFingerprints {
         EXIT_CODE_WHEN_NO_VALID_CHECKS=~{exitCodeWhenNoValidChecks} \
         CROSSCHECK_BY=~{crosscheckBy} \
         LOD_THRESHOLD=~{lodThreshold} \
-        VALIDATION_STRINGENCY=~{validationStringency} \
-        ~{additionalParameters}
+        VALIDATION_STRINGENCY=~{validationStringency}
     >>>
 
     output {
